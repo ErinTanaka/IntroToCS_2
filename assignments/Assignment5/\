@@ -1,0 +1,108 @@
+/***********************************************
+ * Program Filename: list.c
+ * Author: Erin Tanaka
+ * Date: May 26, 2016
+ * Description: function implementation for double linked list
+ * ********************************************/
+#include "list.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int length (struct list l){
+   int n=0;
+   struct node * tracker;
+   tracker=l.head;
+   while(tracker!=NULL){
+      n++;
+      tracker=tracker->next;
+   }
+   return n;
+}
+void print(struct list l){
+   struct node * temp;
+   temp=l.head;
+   while(temp->next!=NULL){
+      printf("%d ", temp->val);
+      temp=temp->next;
+   } 
+   printf("%d \n", temp->val);
+}
+void push_front(struct list * l, int n){
+   struct node *temp;
+   temp=(struct node *) malloc(sizeof(struct node));
+   temp->val=n;
+
+   if (l->head==NULL){ //nothing in list
+      l->head=temp;
+      l->tail=temp;
+      temp->next=NULL;
+      temp->prev=NULL;
+   }
+   else{ //at least one element in list
+      temp->next=l->head;
+      temp->prev=NULL;
+      l->head->next->prev=temp;
+      l->head=temp;
+   }
+}
+void push_back(struct list * l, int n){
+   struct node *temp;
+   temp=(struct node *) malloc(sizeof(struct node));
+   temp->val=n;
+   temp->next=NULL;
+
+   if (l->tail==NULL){ //nothing in list
+      l->head=temp;
+      l->tail=temp;
+      temp->prev=NULL;
+   }
+   else{ //at least one element in list
+      l->tail->next=temp;
+      temp->prev=l->tail;
+      l->tail=temp;
+   }
+}
+
+void clear(struct list * l){
+   struct node * temp;
+   temp=l->head;
+   while(temp->next!=NULL&&l->head->next!=NULL){
+      temp=l->head->next;
+      free(l->head);
+      l->head=temp->next;
+      free(temp);
+   }
+}
+void remove_val(struct list * l, int n){
+
+}
+void sort_ascending(struct list * l){
+   int i=0, j=0, n=0;
+   struct node * tmp1=NULL, * tmp2=NULL, * count=NULL;
+   count=l->head;
+   while(count!=NULL){
+      n++;
+      count=count->next;
+   }
+   tmp1=l->head;
+   tmp2=l->head->next;
+   while(i<n){
+      while (tmp2!=NULL){
+	 printf("%d , %d ", tmp1->val, tmp2->val);
+       
+	 if(tmp1->val > tmp2->val){
+	    printf("making switch \n");
+	    n=tmp1->val;
+	    tmp1->val=tmp2->val;
+	    tmp2->val=n;
+	 }
+	 tmp1=tmp2;
+	 tmp2=tmp2->next;   
+      }
+      tmp1=l->head;
+      tmp2=tmp1->next;
+      i++;
+   }
+}
+void sort_descending(struct list * l){}
+void insert(struct list * l, int n, int loc){}
